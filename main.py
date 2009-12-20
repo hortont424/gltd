@@ -9,9 +9,7 @@ from GridActor import *
 
 def main():
     window = Window()
-    window.addActor(GridActor(100, 100))
-    window.addActor(GridActor(200, 100))
-    window.addActor(GridActor(400, 400))
+    window.addActor(GridActor())
     glutMainLoop()
 
 main()

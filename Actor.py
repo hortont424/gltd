@@ -10,6 +10,9 @@ class Actor(object):
         
         self.x = x
         self.y = y
+        
+        self.parent = None
+        self.window = None
     
     def draw(self, rect):
         abstract()

@@ -13,7 +13,8 @@ class Window(GroupActor):
         glutInitWindowSize(600, 600)
         glutInitWindowPosition(20, 20)
 
-        self.window = glutCreateWindow("GLTD")
+        glutCreateWindow("GLTD")
+        self.window = self
         self.reshape(600, 600)
 
         glutDisplayFunc(self.display)
@@ -22,9 +23,9 @@ class Window(GroupActor):
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
         
-        glDepthFunc(GL_LESS)
-        glEnable(GL_DEPTH_TEST)
-        glShadeModel(GL_SMOOTH)
+        #glDepthFunc(GL_LESS)
+        #glEnable(GL_DEPTH_TEST)
+        #glShadeModel(GL_SMOOTH)
         
         glEnable(GL_BLEND)
 
@@ -58,6 +59,3 @@ class Window(GroupActor):
         self.draw((0, 0, self.width, self.height))
         
         glutSwapBuffers()
-    
-    def addActor(self, actor):
-        self.actors.append(actor)

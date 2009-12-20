@@ -24,4 +24,7 @@ class GroupActor(Actor):
         glPopMatrix()
     
     def addActor(self, actor):
-        actors.append(actor)
+        actor.parent = self
+        actor.window = self.window
+        
+        self.actors.append(actor)
