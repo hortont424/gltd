@@ -23,6 +23,12 @@ class GroupActor(Actor):
         
         glPopMatrix()
     
+    def invalidate(self):
+        super(GroupActor, self).invalidate()
+        
+        for actor in self.actors:
+            actor.invalidate()
+    
     def addActor(self, actor):
         actor.parent = self
         actor.window = self.window

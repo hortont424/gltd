@@ -12,8 +12,8 @@ class Window(GroupActor):
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH | GLUT_MULTISAMPLE)
         glutInitWindowSize(600, 600)
         glutInitWindowPosition(20, 20)
-
         glutCreateWindow("GLTD")
+        
         self.window = self
         self.reshape(600, 600)
 
@@ -47,6 +47,8 @@ class Window(GroupActor):
         glLoadIdentity()
         glOrtho(0, width, 0, height, -800, 800)
         glMatrixMode(GL_MODELVIEW)
+        
+        self.invalidate()
     
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
