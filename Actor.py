@@ -13,6 +13,20 @@ class Actor(object):
         
         self.parent = None
         self.window = None
+        
+        self.valid = False
     
-    def draw(self, rect):
+    def draw(self):
         abstract()
+    
+    def render(self):
+        abstract()
+    
+    def invalidate(self):
+        self.valid = False
+    
+    def validate(self):
+        if not self.valid:
+            self.render()
+            self.valid = True
+    

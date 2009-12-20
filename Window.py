@@ -23,10 +23,6 @@ class Window(GroupActor):
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
         
-        #glDepthFunc(GL_LESS)
-        #glEnable(GL_DEPTH_TEST)
-        #glShadeModel(GL_SMOOTH)
-        
         glEnable(GL_BLEND)
 
         glEnable(GL_LINE_SMOOTH)
@@ -56,6 +52,6 @@ class Window(GroupActor):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glLoadIdentity()
         
-        self.draw((0, 0, self.width, self.height))
+        self.draw()
         
         glutSwapBuffers()

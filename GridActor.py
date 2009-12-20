@@ -10,7 +10,10 @@ class GridActor(Actor):
         self.gridWidth = 15
         self.gridHeight = 15
     
-    def draw(self, rect):
+    def render(self):
+        self.displayList = glGenLists(1)
+        glNewList(self.displayList, GL_COMPILE)
+        
         glPushMatrix()
         
         glBegin(GL_QUADS)
@@ -40,3 +43,10 @@ class GridActor(Actor):
         glEnd()
         
         glPopMatrix()
+        
+        glEndList()
+    
+    def draw(self):
+        self.validate()
+        glCallList(self.displayList)
+        

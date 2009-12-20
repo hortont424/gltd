@@ -10,7 +10,7 @@ class GroupActor(Actor):
     def __init__(self, x, y):
         super(GroupActor, self).__init__(x, y)
     
-    def draw(self, rect):
+    def draw(self):
         glPushMatrix()
         
         glTranslatef(self.x, self.y, 0.0)
@@ -18,7 +18,7 @@ class GroupActor(Actor):
         for actor in self.actors:
             glPushMatrix()
             glTranslatef(actor.x, actor.y, 0.0)
-            actor.draw((self.x, self.y, self.width, self.height))
+            actor.draw()
             glPopMatrix()
         
         glPopMatrix()
