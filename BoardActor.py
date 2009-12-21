@@ -15,13 +15,13 @@ class BoardTheme(object):
     gridLines = [0.0, 0.0, 0.0, 0.0]
 
 class BoardActorThemes(object):
-    green = BoardTheme()
-    green.background = [0.447, 0.812, 0.624, 0.8]
-    green.entranceStart = [1.0, 1.0, 1.0, 0.8]
-    green.entranceEnd = [1.0, 1.0, 1.0, 0.0]
-    green.exitStart = [0.0, 0.0, 0.0, 0.8]
-    green.exitEnd = [0.0, 0.0, 0.0, 0.0]
-    green.gridLines = [0.0, 0.0, 0.0, 0.3]
+    blue = BoardTheme()
+    blue.background = [0.4, 0.6, 0.7, 0.8]
+    blue.entranceStart = [0.4, 0.8, 0.6, 0.8]
+    blue.entranceEnd = [0.4, 0.8, 0.6, 0.0]
+    blue.exitStart = [0.8, 0.4, 0.6, 0.8]
+    blue.exitEnd = [0.8, 0.4, 0.6, 0.0]
+    blue.gridLines = [0.0, 0.0, 0.0, 0.3]
 
 class BoardPathSegment(object):
     def __init__(self, x, y):
@@ -35,11 +35,11 @@ class BoardPathSegment(object):
 class BoardActor(Actor):
     def __init__(self, x, y, w, h):
         super(BoardActor, self).__init__(x, y, w, h)
-        self.theme = BoardActorThemes().green
+        self.theme = BoardActorThemes().blue
         
         self.blocks = [None] * 20
         
-        self.blocks[0] = BoardPathSegment(1, 0)
+        self.blocks[0] = BoardPathSegment(0, 7)
         self.blocks[1] = BoardPathSegment(1, 7)
         self.blocks[2] = BoardPathSegment(2, 7)
         self.blocks[3] = BoardPathSegment(3, 7)

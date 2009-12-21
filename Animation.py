@@ -64,7 +64,7 @@ def IN_OUT_QUART(t, b, c, d):
     return -c/2 * ((t)*t*t*t - 2) + b
 
 class Animation(object):
-    def __init__(self, duration, object, property, fromVal, toVal, easeFunction=LINEAR):
+    def __init__(self, duration, object, property, fromVal, toVal, easeFunction=LINEAR, invalidateEachFrame=False):
         super(Animation, self).__init__()
         self.duration = duration
         self.object = object
@@ -75,6 +75,7 @@ class Animation(object):
         self.completionFunction = None
         self.startTime = 0
         self.running = False
+        self.invalidateEachFrame = invalidateEachFrame
     
     def start(self):
         self.startTime = glutGet(GLUT_ELAPSED_TIME)
@@ -96,6 +97,9 @@ class Animation(object):
         newVal = self.easeFunction(float(self.currentPosition * self.duration), float(self.fromVal), float(self.toVal - self.fromVal), float(self.duration))
         
         setattr(self.object, self.property, newVal)
+        
+        if(self.invalidateEachFrame):
+            self.object.invalidate()
     
     def onCompletion(self, func):
         self.completionFunction = func

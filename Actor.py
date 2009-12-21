@@ -29,6 +29,8 @@ class Actor(object):
     
     def invalidate(self):
         self.valid = False
+        if hasattr(self, "displayList"):
+            glDeleteLists(self.displayList, 1)
     
     def validate(self):
         if not self.valid:
@@ -41,7 +43,8 @@ class Actor(object):
     def animate(self, frames):
         for anim in self.animations:
             anim.update(frames)
-        self.invalidate()
+        #if len(self.animations) != 0:
+        #    self.invalidate()
     
     def addAnimation(self, anim):
         self.animations.append(anim)
