@@ -6,33 +6,18 @@ from Animation import *
 from Actor import *
 from GridActor import gridWidth, gridHeight
 
+from Utilities import *
+
 class EnemyActor(Actor):
     def __init__(self):
         super(EnemyActor, self).__init__(0, 0, 0, 0)
         
         self.position = 0
+        self.hitPoints = 1000
+        self.speed = 1000
     
     def render(self):
-        self.displayList = glGenLists(1)
-        
-        glNewList(self.displayList, GL_COMPILE)
-        
-        glPushMatrix()
-        
-        glColor4f(1.0, 0.0, 0.0, 0.9)
-
-        glBegin(GL_QUADS)
-        
-        glVertex2f(10, 10)
-        glVertex2f(10, self.height - 10)
-        glVertex2f(self.width - 10, self.height - 10)
-        glVertex2f(self.width - 10, 10)
-        
-        glEnd()
-        
-        glPopMatrix()
-        
-        glEndList()
+        abstract()
     
     def draw(self):
         self.validate()
@@ -57,8 +42,8 @@ class EnemyActor(Actor):
     def start(self):
         (startX, startY) = self.getPosition()
         (nextX, nextY) = self.getNextPosition()
-        anima = Animation(1000, self, "x", startX, nextX, IN_OUT_QUAD)
-        animb = Animation(1000, self, "y", startY, nextY, IN_OUT_QUAD)
+        anima = Animation(self.speed, self, "x", startX, nextX, IN_OUT_QUAD)
+        animb = Animation(self.speed, self, "y", startY, nextY, IN_OUT_QUAD)
         self.addAnimation(anima)
         self.addAnimation(animb)
         anima.onCompletion(self.nextSquare)

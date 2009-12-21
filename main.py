@@ -7,7 +7,7 @@ from OpenGL.GLU import *
 from Window import *
 from GridActor import *
 from BoardActor import *
-from EnemyActor import *
+from RedEasyEnemyActor import *
 from Animation import *
 
 def main():
@@ -16,7 +16,7 @@ def main():
     window.board = BoardActor(0, 0, 600, 600)
     window.addActor(window.board)
     
-    enemy = EnemyActor()
+    enemy = RedEasyEnemyActor()
     
     window.addActor(enemy)
     
