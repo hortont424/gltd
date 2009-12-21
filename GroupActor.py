@@ -17,6 +17,7 @@ class GroupActor(Actor):
         
         for actor in self.actors:
             glPushMatrix()
+            actor.updatePosition()
             glTranslatef(actor.x, actor.y, 0.0)
             actor.draw()
             glPopMatrix()
@@ -32,5 +33,7 @@ class GroupActor(Actor):
     def addActor(self, actor):
         actor.parent = self
         actor.window = self.window
+        actor.board = self.board
         
         self.actors.append(actor)
+        self.window.registerActor(actor)

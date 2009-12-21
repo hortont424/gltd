@@ -15,8 +15,11 @@ class Actor(object):
         
         self.parent = None
         self.window = None
+        self.board = None
         
         self.valid = False
+        
+        self.animations = []
     
     def draw(self):
         abstract()
@@ -32,3 +35,13 @@ class Actor(object):
             self.render()
             self.valid = True
     
+    def updatePosition(self):
+        pass
+    
+    def animate(self, frames):
+        for anim in self.animations:
+            anim.update(frames)
+        self.invalidate()
+    
+    def addAnimation(self, anim):
+        self.animations.append(anim)

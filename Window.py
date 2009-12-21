@@ -4,7 +4,11 @@ from OpenGL.GLU import *
 
 from GroupActor import *
 
+import time
+
 class Window(GroupActor):
+    subactors = []
+    
     def __init__(self):
         super(Window, self).__init__(0, 0, 800, 600)
         
@@ -19,6 +23,7 @@ class Window(GroupActor):
 
         glutDisplayFunc(self.display)
         glutReshapeFunc(self.reshape)
+        glutIdleFunc(self.animate)
         
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
@@ -37,6 +42,11 @@ class Window(GroupActor):
 
         glEnable(GL_TEXTURE_2D)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+        
+        self.lastTime = glutGet(GLUT_ELAPSED_TIME)
+    
+    def registerActor(self, actor):
+        self.subactors.append(actor)
     
     def reshape(self, width, height):
         self.width = width
@@ -57,3 +67,11 @@ class Window(GroupActor):
         self.draw()
         
         glutSwapBuffers()
+    
+    def animate(self):
+        timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime
+        for actor in self.subactors:
+            actor.animate(timeStep)
+        self.lastTime = glutGet(GLUT_ELAPSED_TIME)
+        
+        glutPostRedisplay()
