@@ -15,7 +15,7 @@ class BoardTheme(object):
 class BoardActorThemes(object):
     green = BoardTheme()
     green.background = [0.447, 0.812, 0.624, 0.8]
-    green.gridLines = [1.0, 1.0, 1.0, 1.0]
+    green.gridLines = [0.0, 0.0, 0.0, 0.3]
 
 class BoardPathSegment(object):
     def __init__(self, x, y):
@@ -59,7 +59,7 @@ class BoardActor(Actor):
     def render(self):
         tileWidth = (self.width / gridWidth)
         tileHeight = (self.height / gridHeight)
-        shift = 6
+        shift = 4
         
         pathpoly = Polygon()
         for block in self.blocks:
@@ -101,28 +101,31 @@ class BoardActor(Actor):
             else:
                 (x2, y2) = plist[i]
             
+            width = 1.0
+            half = width / 2.0
+            
             if(x1 == x2):
                 if y2 > y1:
-                    y1 += 1
-                    y2 -= 1
+                    y1 += width
+                    y2 -= width
                 else:
-                    y1 -= 1
-                    y2 += 1
-                glVertex2f(float(x1 + 0.5), float(y1 + 0.5))
-                glVertex2f(float(x1 - 0.5), float(y1 - 0.5))
-                glVertex2f(float(x2 - 0.5), float(y2 - 0.5))
-                glVertex2f(float(x2 + 0.5), float(y2 + 0.5))
+                    y1 -= width
+                    y2 += width
+                glVertex2f(float(x1 + half), float(y1 + half))
+                glVertex2f(float(x1 - half), float(y1 - half))
+                glVertex2f(float(x2 - half), float(y2 - half))
+                glVertex2f(float(x2 + half), float(y2 + half))
             elif(y1 == y2):
                 if x2 > x1:
-                    x1 -= 1
-                    x2 += 1
+                    x1 -= width
+                    x2 += width
                 else:
-                    x1 += 1
-                    x2 -= 1
-                glVertex2f(float(x1 + 0.5), float(y1 + 0.5))
-                glVertex2f(float(x1 - 0.5), float(y1 - 0.5))
-                glVertex2f(float(x2 - 0.5), float(y2 - 0.5))
-                glVertex2f(float(x2 + 0.5), float(y2 + 0.5))
+                    x1 += width
+                    x2 -= width
+                glVertex2f(float(x1 + half), float(y1 + half))
+                glVertex2f(float(x1 - half), float(y1 - half))
+                glVertex2f(float(x2 - half), float(y2 - half))
+                glVertex2f(float(x2 + half), float(y2 + half))
         
         glEnd()
         
