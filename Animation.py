@@ -64,7 +64,7 @@ def IN_OUT_QUART(t, b, c, d):
     return -c/2 * ((t)*t*t*t - 2) + b
 
 class Animation(object):
-    def __init__(self, duration, object, property, fromVal, toVal, easeFunction=IN_OUT_QUAD):
+    def __init__(self, duration, object, property, fromVal, toVal, easeFunction=LINEAR):
         super(Animation, self).__init__()
         self.duration = duration
         self.object = object

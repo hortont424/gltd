@@ -10,11 +10,17 @@ from Polygon.Utils import *
 
 class BoardTheme(object):
     background = [0.0, 0.0, 0.0, 0.0]
+    entranceStart = [0.0, 0.0, 0.0, 0.0]
+    entranceEnd = [0.0, 0.0, 0.0, 0.0]
     gridLines = [0.0, 0.0, 0.0, 0.0]
 
 class BoardActorThemes(object):
     green = BoardTheme()
     green.background = [0.447, 0.812, 0.624, 0.8]
+    green.entranceStart = [1.0, 1.0, 1.0, 0.8]
+    green.entranceEnd = [1.0, 1.0, 1.0, 0.0]
+    green.exitStart = [0.0, 0.0, 0.0, 0.8]
+    green.exitEnd = [0.0, 0.0, 0.0, 0.0]
     green.gridLines = [0.0, 0.0, 0.0, 0.3]
 
 class BoardPathSegment(object):
@@ -33,7 +39,7 @@ class BoardActor(Actor):
         
         self.blocks = [None] * 20
         
-        self.blocks[0] = BoardPathSegment(0, 7)
+        self.blocks[0] = BoardPathSegment(1, 0)
         self.blocks[1] = BoardPathSegment(1, 7)
         self.blocks[2] = BoardPathSegment(2, 7)
         self.blocks[3] = BoardPathSegment(3, 7)
@@ -56,6 +62,45 @@ class BoardActor(Actor):
         
         self.path = self.blocks[:]
     
+    def drawDoorGradient(self, block, startColor, endColor):
+        tileWidth = (self.width / gridWidth)
+        tileHeight = (self.height / gridHeight)
+        
+        x = tileWidth * block.x
+        y = tileHeight * block.y
+        
+        glBegin(GL_QUADS)
+        
+        if block.x == 0: # on left side
+            glColor4fv(startColor)
+            glVertex2f(float(x), float(y))
+            glVertex2f(float(x), float(y + tileHeight))
+            glColor4fv(endColor)
+            glVertex2f(float(x + tileWidth), float(y + tileHeight))
+            glVertex2f(float(x + tileWidth), float(y))
+        elif block.y == 0: # on bottom side
+            glColor4fv(startColor)
+            glVertex2f(float(x), float(y))
+            glVertex2f(float(x + tileWidth), float(y))
+            glColor4fv(endColor)
+            glVertex2f(float(x + tileWidth), float(y + tileHeight))
+            glVertex2f(float(x), float(y + tileHeight))
+        elif block.x == gridWidth - 1: # on right side
+            glColor4fv(startColor)
+            glVertex2f(float(x + tileWidth), float(y))
+            glVertex2f(float(x + tileWidth), float(y + tileHeight))
+            glColor4fv(endColor)
+            glVertex2f(float(x), float(y + tileHeight))
+            glVertex2f(float(x), float(y))
+        elif block.y == gridHeight - 1: # on top side
+            glColor4fv(startColor)
+            glVertex2f(float(x), float(y + tileHeight))
+            glVertex2f(float(x + tileWidth), float(y + tileHeight))
+            glColor4fv(endColor)
+            glVertex2f(float(x + tileWidth), float(y))
+            glVertex2f(float(x), float(y))
+        glEnd()
+    
     def render(self):
         tileWidth = (self.width / gridWidth)
         tileHeight = (self.height / gridHeight)
@@ -74,6 +119,8 @@ class BoardActor(Actor):
         
         glPushMatrix()
         
+        # Draw background of entire path
+        
         glColor4fv(self.theme.background)
 
         glBegin(GL_QUADS)
@@ -87,6 +134,13 @@ class BoardActor(Actor):
             glVertex2f(float(x), float(y + tileHeight))
         
         glEnd()
+        
+        # Draw entrance/exit
+        
+        self.drawDoorGradient(self.blocks[0], self.theme.entranceStart, self.theme.entranceEnd)
+        self.drawDoorGradient(self.blocks[-1], self.theme.exitStart, self.theme.exitEnd)
+        
+        # Draw border around path
         
         glColor4fv(self.theme.gridLines)
         
