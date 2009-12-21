@@ -17,7 +17,6 @@ class GroupActor(Actor):
         
         for actor in self.actors:
             glPushMatrix()
-            actor.updatePosition()
             glTranslatef(actor.x, actor.y, 0.0)
             actor.draw()
             glPopMatrix()

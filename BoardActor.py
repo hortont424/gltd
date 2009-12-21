@@ -54,7 +54,7 @@ class BoardActor(Actor):
         self.blocks[18] = BoardPathSegment(13, 4)
         self.blocks[19] = BoardPathSegment(14, 4)
         
-        self.path = self.blocks[0]
+        self.path = self.blocks[:]
     
     def render(self):
         tileWidth = (self.width / gridWidth)

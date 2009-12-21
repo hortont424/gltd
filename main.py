@@ -16,13 +16,11 @@ def main():
     window.board = BoardActor(0, 0, 600, 600)
     window.addActor(window.board)
     
-    enemy = EnemyActor(0, 7)
+    enemy = EnemyActor()
     
     window.addActor(enemy)
     
-    anim = Animation(1000, enemy, "x", 0, 100)
-    enemy.addAnimation(anim)
-    anim.start()
+    enemy.start()
     
     glutMainLoop()
 
