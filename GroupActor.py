@@ -7,8 +7,8 @@ from Actor import *
 class GroupActor(Actor):
     actors = []
     
-    def __init__(self, x, y):
-        super(GroupActor, self).__init__(x, y)
+    def __init__(self, x, y, w, h):
+        super(GroupActor, self).__init__(x, y, w, h)
     
     def draw(self):
         glPushMatrix()

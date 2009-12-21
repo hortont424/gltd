@@ -6,16 +6,16 @@ from GroupActor import *
 
 class Window(GroupActor):
     def __init__(self):
-        super(Window, self).__init__(0, 0)
+        super(Window, self).__init__(0, 0, 800, 600)
         
         glutInit("")
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH | GLUT_MULTISAMPLE)
-        glutInitWindowSize(600, 600)
+        glutInitWindowSize(800, 600)
         glutInitWindowPosition(20, 20)
         glutCreateWindow("GLTD")
         
         self.window = self
-        self.reshape(600, 600)
+        self.reshape(800, 600)
 
         glutDisplayFunc(self.display)
         glutReshapeFunc(self.reshape)
@@ -24,15 +24,15 @@ class Window(GroupActor):
         glClearDepth(1.0)
         
         glEnable(GL_BLEND)
-
+        
         glEnable(GL_LINE_SMOOTH)
         glEnable(GL_POINT_SMOOTH)
         glEnable(GL_POLYGON_SMOOTH)
-
+        
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
         glHint(GL_POINT_SMOOTH_HINT, GL_NICEST)
         glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
-
+        
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         glEnable(GL_TEXTURE_2D)
