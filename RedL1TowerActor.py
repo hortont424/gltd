@@ -10,12 +10,14 @@ from GridActor import gridWidth, gridHeight
 class RedL1BulletActor(Actor):
     def __init__(self, x, y, angle, velocity):
         super(RedL1BulletActor, self).__init__(x, y, 5, 5)
-        anim = Animation(velocity, [("x", x, x + cos(radians(angle)) * 100), ("y", y, y + sin(radians(angle)) * 100)], LINEAR)
+        nextX = x + cos(radians(angle)) * 800 # TODO: HACKY
+        nextY = y + sin(radians(angle)) * 800
+        anim = Animation(velocity, [("x", x, nextX), ("y", y, nextY)], LINEAR)
         self.addAnimation(anim)
         anim.start()
     
     def draw(self):
-        glPointSize(7)
+        glPointSize(6)
         glBegin(GL_POINTS)
         glColor4f(0.8, 0.2, 0.4, 1.0)
         glVertex2f(0.0, 0.0)
@@ -39,11 +41,11 @@ class RedL1TowerActor(TowerActor):
     def fire(self):
         currentTime = glutGet(GLUT_ELAPSED_TIME)
         
-        if self.distanceToEnemy() - (self.targetEnemy.width / 2) < self.range and currentTime - self.fireTime > self.reloadSpeed: # TODO: awkward to use width
+        if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
             self.fireTime = currentTime
             print "fire!"
             
-            bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 500)
+            bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 1500)
             self.window.addActor(bullet)
     
     def render(self):

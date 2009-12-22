@@ -54,16 +54,22 @@ class TowerActor(Actor):
         self.retarget()
     
     def retarget(self):
-        self.weaponAngle = 90 + degrees(atan2(self.y - self.targetEnemy.y, self.x - self.targetEnemy.x))
-        self.invalidate()
-        anim = Animation(10, [], LINEAR)
+        anim = Animation(50, [], LINEAR)
         anim.onCompletion(self.retarget)
         self.addAnimation(anim)
         anim.start()
+        
+        if self.distanceToEnemy() > self.range:
+            return
+        
+        self.weaponAngle = 90 + degrees(atan2(self.y - self.targetEnemy.y, self.x - self.targetEnemy.x))
+        self.invalidate()
+        
         self.fire()
     
     def fire(self):
         abstract()
     
     def distanceToEnemy(self):
-        return sqrt((self.x - self.targetEnemy.x)**2 + (self.y - self.targetEnemy.y)**2)
+        # TODO: awkward to use width
+        return sqrt((self.x - self.targetEnemy.x)**2 + (self.y - self.targetEnemy.y)**2) - (self.targetEnemy.width / 2)
