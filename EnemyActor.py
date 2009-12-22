@@ -42,8 +42,8 @@ class EnemyActor(Actor):
     def start(self):
         (startX, startY) = self.getPosition()
         (nextX, nextY) = self.getNextPosition()
-        anima = Animation(self.speed, self, "x", startX, nextX, IN_OUT_QUAD)
-        animb = Animation(self.speed, self, "y", startY, nextY, IN_OUT_QUAD)
+        anima = Animation(self.speed, "x", startX, nextX, IN_OUT_QUAD)
+        animb = Animation(self.speed, "y", startY, nextY, IN_OUT_QUAD)
         self.addAnimation(anima)
         self.addAnimation(animb)
         anima.onCompletion(self.nextSquare)

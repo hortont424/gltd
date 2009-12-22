@@ -11,12 +11,12 @@ class RedEasyEnemyActor(EnemyActor):
     def __init__(self):
         super(RedEasyEnemyActor, self).__init__()
         
-        anim = Animation(5000, self, "rotation", 0, 360, LINEAR)
+        anim = Animation(5000, "rotation", 0, 360, LINEAR)
         anim.loop = True
         self.addAnimation(anim)
         anim.start()
         
-        anim = Animation(250, self, "scale", .8, 1.2, IN_OUT_QUAD)
+        anim = Animation(250, "scale", .8, 1.2, IN_OUT_QUAD)
         anim.loop = True
         anim.pingPong = True
         self.addAnimation(anim)
