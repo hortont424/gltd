@@ -38,6 +38,12 @@ class RedEasyEnemyActor(EnemyActor):
         glEnd()
         
         glBegin(GL_POLYGON)
+        glColor4f(1.0, 1.0, 1.0, 0.2)
+        drawCircle(0.0, 6.0, 0.0)
+        glEnd()
+        
+        glBegin(GL_POLYGON)
+        glColor4f(0.8, 0.2, 0.4, 0.9)
         drawCircle(0.0, 4.0, 0.0)
         glEnd()
         
