@@ -46,6 +46,9 @@ class Actor(object):
     def animate(self, frames):
         for anim in self.animations:
             anim.update(self, frames)
+            
+            if (not anim.running) and (anim.ran):
+                self.animations.remove(anim)
         #if len(self.animations) != 0:
         #    self.invalidate()
     

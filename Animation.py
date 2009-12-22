@@ -75,11 +75,13 @@ class Animation(object):
         self.loop = False
         self.pingPong = False
         self.reverse = False
+        self.ran = False
         self.invalidateEachFrame = invalidateEachFrame
     
     def start(self):
         self.startTime = glutGet(GLUT_ELAPSED_TIME)
         self.running = True
+        self.ran = True
     
     def update(self, object, step):
         if not self.running:
