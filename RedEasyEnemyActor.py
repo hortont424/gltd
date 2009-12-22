@@ -29,13 +29,16 @@ class RedEasyEnemyActor(EnemyActor):
         
         glPushMatrix()
         
-        glColor4f(0.8, 0.2, 0.4, 0.9)
-        
         glBegin(GL_QUADS)
-        
         size = self.width - 20
+        glColor4f(1.0, 1.0, 1.0, 0.2)
+        drawRect(- size / 2, - size / 2, size, size, 5)
+        glColor4f(0.8, 0.2, 0.4, 0.9)
         drawRect(- size / 2, - size / 2, size, size, 3)
+        glEnd()
         
+        glBegin(GL_POLYGON)
+        drawCircle(0.0, 4.0, 0.0)
         glEnd()
         
         glPopMatrix()

@@ -9,12 +9,10 @@ def abstract():
     caller = inspect.getouterframes(inspect.currentframe())[1][3]
     raise NotImplementedError(caller + ' must be implemented in subclass')
 
-def drawCircle(k, r, h):
-    glBegin(GL_LINES)
-    for i in range (0, 180):
-        glVertex3f(r * cos(i) - h + k, r * sin(i) + k - h)
-        glVertex3f(r * cos(i + 0.01) - h + k, r * sin(i + 0.01) + k - h)
-    glEnd()
+def drawCircle(k, rad, h):
+    for r in range (0, 360):
+        i = float(radians(r))
+        glVertex2f(rad * cos(i) - h + k, rad * sin(i) + k - h)
 
 def drawLine(x1, y1, x2, y2, width):
     half = float(width) / 2.0
