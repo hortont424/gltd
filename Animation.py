@@ -102,6 +102,8 @@ class Animation(object):
                     self.toVal = self.fromVal
                     self.fromVal = temp
                 self.start()
+            
+            return
         
         newVal = self.easeFunction(float(self.currentPosition * self.duration), float(self.fromVal), float(self.toVal - self.fromVal), float(self.duration))
         

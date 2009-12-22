@@ -20,6 +20,7 @@ class GroupActor(Actor):
             
             glTranslatef(actor.x, actor.y, 0.0)
             glRotatef(actor.rotation, 0.0, 0.0, 1.0)
+            glScalef(actor.scale, actor.scale, 1.0)
             actor.draw()
             glPopMatrix()
         

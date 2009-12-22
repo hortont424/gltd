@@ -15,6 +15,12 @@ class RedEasyEnemyActor(EnemyActor):
         anim.loop = True
         self.addAnimation(anim)
         anim.start()
+        
+        anim = Animation(250, self, "scale", .8, 1.2, IN_OUT_QUAD)
+        anim.loop = True
+        anim.pingPong = True
+        self.addAnimation(anim)
+        anim.start()
     
     def render(self):
         self.displayList = glGenLists(1)
