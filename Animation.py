@@ -98,14 +98,13 @@ class Animation(object):
             
             if self.loop:
                 if self.pingPong:
-                    self.reverse = not self.reverse
+                    self.properties = [(prop, toVal, fromVal) for (prop, fromVal, toVal) in self.properties]
+                
                 self.start()
             
             return
         
         for (prop, fromVal, toVal) in self.properties:
-            if self.reverse:
-                currentTime = self.duration - currentTime
             newVal = self.easeFunction(float(currentTime), float(fromVal), float(toVal - fromVal), float(self.duration))
             setattr(object, prop, newVal)
         
