@@ -20,14 +20,28 @@ class TowerActor(Actor):
         self.targetEnemy = None
         
         self.weaponAngle = 0.0
+        self.fireTime = 0
     
     def render(self):
-        abstract()
+        self.rangeDisplayList = glGenLists(1)
+        glNewList(self.rangeDisplayList, GL_COMPILE)
+        glPushMatrix()
+        
+        glLineWidth(2)
+        glColor4f(1.0, 1.0, 1.0, 0.1)
+        
+        glBegin(GL_LINE_STRIP)
+        drawCircle(0.0, 0.0, self.range)
+        glEnd()
+        
+        glPopMatrix()
+        glEndList()
     
     def draw(self):
         (self.x, self.y) = self.getPosition()
         self.validate()
         glCallList(self.displayList)
+        glCallList(self.rangeDisplayList)
 
     def getPosition(self):
         self.width = (self.board.width / gridWidth)
@@ -36,6 +50,7 @@ class TowerActor(Actor):
         return (self.width * self.gridX + (self.width / 2), self.height * self.gridY + (self.height / 2))
     
     def start(self):
+        (self.x, self.y) = self.getPosition()
         self.retarget()
     
     def retarget(self):
@@ -45,3 +60,10 @@ class TowerActor(Actor):
         anim.onCompletion(self.retarget)
         self.addAnimation(anim)
         anim.start()
+        self.fire()
+    
+    def fire(self):
+        abstract()
+    
+    def distanceToEnemy(self):
+        return sqrt((self.x - self.targetEnemy.x)**2 + (self.y - self.targetEnemy.y)**2)

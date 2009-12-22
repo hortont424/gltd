@@ -22,7 +22,16 @@ class RedL1TowerActor(TowerActor):
         #self.addAnimation(anim)
         #anim.start()
     
+    def fire(self):
+        currentTime = glutGet(GLUT_ELAPSED_TIME)
+        
+        if self.distanceToEnemy() - (self.targetEnemy.width / 2) < self.range and currentTime - self.fireTime > self.reloadSpeed: # TODO: awkward to use width
+            self.fireTime = currentTime
+            print "fire!"
+    
     def render(self):
+        super(RedL1TowerActor, self).render()
+        
         self.displayList = glGenLists(1)
         
         glNewList(self.displayList, GL_COMPILE)
