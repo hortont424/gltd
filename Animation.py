@@ -64,18 +64,17 @@ def IN_OUT_QUART(t, b, c, d):
     return -c/2 * ((t)*t*t*t - 2) + b
 
 class Animation(object):
-    def __init__(self, duration, property, fromVal, toVal, easeFunction=LINEAR, invalidateEachFrame=False):
+    def __init__(self, duration, properties, easeFunction=LINEAR, invalidateEachFrame=False):
         super(Animation, self).__init__()
         self.duration = duration
-        self.property = property
-        self.fromVal = fromVal
-        self.toVal = toVal
+        self.properties = properties
         self.easeFunction = easeFunction
         self.completionFunction = None
         self.startTime = 0
         self.running = False
         self.loop = False
         self.pingPong = False
+        self.reverse = False
         self.invalidateEachFrame = invalidateEachFrame
     
     def start(self):
@@ -86,27 +85,29 @@ class Animation(object):
         if not self.running:
             return
         
-        self.currentPosition = (float(glutGet(GLUT_ELAPSED_TIME)) - self.startTime) / self.duration
+        currentTime = (float(glutGet(GLUT_ELAPSED_TIME)) - self.startTime)
         
-        if self.currentPosition > 1.0:
+        if (currentTime / self.duration) > 1.0:
             self.running = False
-            setattr(object, self.property, self.toVal)
+            
+            for (prop, fromVal, toVal) in self.properties:
+                setattr(object, prop, toVal)
             
             if self.completionFunction:
                 self.completionFunction()
             
             if self.loop:
                 if self.pingPong:
-                    temp = self.toVal
-                    self.toVal = self.fromVal
-                    self.fromVal = temp
+                    self.reverse = not self.reverse
                 self.start()
             
             return
         
-        newVal = self.easeFunction(float(self.currentPosition * self.duration), float(self.fromVal), float(self.toVal - self.fromVal), float(self.duration))
-        
-        setattr(object, self.property, newVal)
+        for (prop, fromVal, toVal) in self.properties:
+            if self.reverse:
+                currentTime = self.duration - currentTime
+            newVal = self.easeFunction(float(currentTime), float(fromVal), float(toVal - fromVal), float(self.duration))
+            setattr(object, prop, newVal)
         
         if(self.invalidateEachFrame):
             object.invalidate()
