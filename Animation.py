@@ -75,6 +75,8 @@ class Animation(object):
         self.completionFunction = None
         self.startTime = 0
         self.running = False
+        self.loop = False
+        self.pingPong = False
         self.invalidateEachFrame = invalidateEachFrame
     
     def start(self):
@@ -93,6 +95,13 @@ class Animation(object):
             
             if self.completionFunction:
                 self.completionFunction()
+            
+            if self.loop:
+                if self.pingPong:
+                    temp = self.toVal
+                    self.toVal = self.fromVal
+                    self.fromVal = temp
+                self.start()
         
         newVal = self.easeFunction(float(self.currentPosition * self.duration), float(self.fromVal), float(self.toVal - self.fromVal), float(self.duration))
         

@@ -29,7 +29,7 @@ class EnemyActor(Actor):
         self.width = (self.board.width / gridWidth)
         self.height = (self.board.height / gridHeight)
         
-        return (self.width * block.x, self.height * block.y)
+        return (self.width * block.x + (self.width / 2), self.height * block.y + (self.height / 2))
     
     def getNextPosition(self):
         block = self.board.path[self.position + 1]
@@ -37,7 +37,7 @@ class EnemyActor(Actor):
         self.width = (self.board.width / gridWidth)
         self.height = (self.board.height / gridHeight)
         
-        return (self.width * block.x, self.height * block.y)
+        return (self.width * block.x + (self.width / 2), self.height * block.y + (self.height / 2))
     
     def start(self):
         (startX, startY) = self.getPosition()

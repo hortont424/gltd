@@ -8,6 +8,14 @@ from Actor import *
 from GridActor import gridWidth, gridHeight
 
 class RedEasyEnemyActor(EnemyActor):
+    def __init__(self):
+        super(RedEasyEnemyActor, self).__init__()
+        
+        anim = Animation(5000, self, "rotation", 0, 360, LINEAR)
+        anim.loop = True
+        self.addAnimation(anim)
+        anim.start()
+    
     def render(self):
         self.displayList = glGenLists(1)
         
@@ -15,14 +23,12 @@ class RedEasyEnemyActor(EnemyActor):
         
         glPushMatrix()
         
-        glColor4f(1.0, 0.0, 0.0, 0.9)
-
+        glColor4f(0.8, 0.2, 0.4, 0.9)
+        
         glBegin(GL_QUADS)
         
-        glVertex2f(10, 10)
-        glVertex2f(10, self.height - 10)
-        glVertex2f(self.width - 10, self.height - 10)
-        glVertex2f(self.width - 10, 10)
+        size = self.width - 20
+        drawRect(- size / 2, - size / 2, size, size, 3)
         
         glEnd()
         

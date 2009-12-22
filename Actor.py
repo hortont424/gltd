@@ -13,6 +13,8 @@ class Actor(object):
         self.width = w
         self.height = h
         
+        self.rotation = 0
+        
         self.parent = None
         self.window = None
         self.board = None
