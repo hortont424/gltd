@@ -48,6 +48,9 @@ class Window(GroupActor):
     def registerActor(self, actor):
         self.subactors.append(actor)
     
+    def unregisterActor(self, actor):
+        self.subactors.remove(actor)
+    
     def reshape(self, width, height):
         self.width = width
         self.height = height

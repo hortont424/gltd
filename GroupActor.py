@@ -39,3 +39,7 @@ class GroupActor(Actor):
         
         self.actors.append(actor)
         self.window.registerActor(actor)
+    
+    def removeActor(self, actor):
+        self.actors.remove(actor)
+        self.window.unregisterActor(actor)

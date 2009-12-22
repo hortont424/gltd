@@ -13,6 +13,7 @@ class RedL1BulletActor(Actor):
         nextX = x + cos(radians(angle)) * 800 # TODO: HACKY
         nextY = y + sin(radians(angle)) * 800
         anim = Animation(velocity, [("x", x, nextX), ("y", y, nextY)], LINEAR)
+        anim.onFrame(self.collisionCheck)
         self.addAnimation(anim)
         anim.start()
     
@@ -22,6 +23,12 @@ class RedL1BulletActor(Actor):
         glColor4f(0.8, 0.2, 0.4, 1.0)
         glVertex2f(0.0, 0.0)
         glEnd()
+    
+    def collisionCheck(self):
+        if (self.x < self.board.x or self.x > self.board.width or
+            self.y < self.board.y or self.y > self.board.height):
+            self.window.removeActor(self)
+        print "collisioncheck"
 
 class RedL1TowerActor(TowerActor):
     def __init__(self, gridX, gridY):

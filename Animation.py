@@ -70,6 +70,7 @@ class Animation(object):
         self.properties = properties
         self.easeFunction = easeFunction
         self.completionFunction = None
+        self.frameFunction = None
         self.startTime = 0
         self.running = False
         self.loop = False
@@ -110,8 +111,14 @@ class Animation(object):
             newVal = self.easeFunction(float(currentTime), float(fromVal), float(toVal - fromVal), float(self.duration))
             setattr(object, prop, newVal)
         
-        if(self.invalidateEachFrame):
+        if self.frameFunction:
+            self.frameFunction()
+        
+        if self.invalidateEachFrame:
             object.invalidate()
     
     def onCompletion(self, func):
         self.completionFunction = func
+    
+    def onFrame(self, func):
+        self.frameFunction = func
