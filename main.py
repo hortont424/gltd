@@ -8,6 +8,7 @@ from Window import *
 from GridActor import *
 from BoardActor import *
 from RedEasyEnemyActor import *
+from RedL1TowerActor import *
 from Animation import *
 
 def main():
@@ -21,6 +22,13 @@ def main():
     window.addActor(enemy)
     
     enemy.start()
+    
+    tower = RedL1TowerActor(4,7)
+    tower.targetEnemy = enemy
+    
+    window.addActor(tower)
+    
+    tower.start()
     
     glutMainLoop()
 

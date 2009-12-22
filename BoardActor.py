@@ -182,7 +182,7 @@ class BoardActor(Actor):
                 glVertex2f(float(x2 + half), float(y2 + half))
         
         glEnd()
-        
+
         glPopMatrix()
         
         glEndList()
