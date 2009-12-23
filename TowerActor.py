@@ -18,6 +18,7 @@ class TowerActor(Actor):
         self.reloadSpeed = 700
         self.range = 50
         self.targetEnemy = None
+        self.shake = 20
         
         self.weaponAngle = 0.0
         self.fireTime = 0

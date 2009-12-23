@@ -13,6 +13,7 @@ def drawCircle(x, y, rad):
     for r in range (0, 360):
         i = float(radians(r))
         glVertex2f(rad * cos(i) + x, rad * sin(i) + y)
+    glVertex2f(rad * cos(0) + x, rad * sin(0) + y)
 
 def drawLine(x1, y1, x2, y2, width):
     half = float(width) / 2.0

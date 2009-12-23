@@ -35,6 +35,7 @@ class GLTD(object):
         tower = RedL1TowerActor(10,5)
         tower.range = 150
         tower.damage = 1000
+        tower.shake = 2
         self.window.addTower(tower)
         tower.start()
 
@@ -44,6 +45,5 @@ class GLTD(object):
         enemy = RedEasyEnemyActor()
         self.window.addEnemy(enemy)
         enemy.start()
-        print "made new enemy"
 
 td = GLTD()

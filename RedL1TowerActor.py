@@ -2,6 +2,8 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
+from random import *
+
 from TowerActor import *
 from Animation import *
 from Actor import *
@@ -60,7 +62,8 @@ class RedL1TowerActor(TowerActor):
         if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
             if self.targetEnemy and self.targetEnemy.health > 0:
                 self.fireTime = currentTime
-                bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 2000, self.damage)
+                angle = self.weaponAngle + 90 + (random()*self.shake)
+                bullet = RedL1BulletActor(self.x, self.y, angle, 3500, self.damage)
                 self.window.addActor(bullet)
     
     def render(self):
