@@ -15,6 +15,7 @@ class Actor(object):
         
         self.rotation = 0.0
         self.scale = 1.0
+        self.opacity = 1.0
         
         self.parent = None
         self.window = None

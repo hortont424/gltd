@@ -16,13 +16,14 @@ class GroupActor(Actor):
         glTranslatef(self.x, self.y, 0.0)
         
         for actor in self.actors:
+            glPushName(self.window.pickingNames[actor])
             glPushMatrix()
-            
             glTranslatef(actor.x, actor.y, 0.0)
             glRotatef(actor.rotation, 0.0, 0.0, 1.0)
             glScalef(actor.scale, actor.scale, 1.0)
             actor.draw()
             glPopMatrix()
+            glPopName()
         
         glPopMatrix()
     

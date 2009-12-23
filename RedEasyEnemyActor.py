@@ -31,21 +31,21 @@ class RedEasyEnemyActor(EnemyActor):
         
         glBegin(GL_QUADS)
         size = self.width - 20
-        glColor4f(1.0, 1.0, 1.0, 0.2)
+        glColor4f(1.0, 1.0, 1.0, 0.2 * self.opacity)
         drawRect(- size / 2, - size / 2, size, size, 5)
-        glColor4f(0.8, 0.2, 0.4, 0.9)
+        glColor4f(0.8, 0.2, 0.4, 0.9 * self.opacity)
         drawRect(- size / 2, - size / 2, size, size, 3)
         glEnd()
         
         glPointSize(12)
         glBegin(GL_POINTS)
-        glColor4f(1.0, 1.0, 1.0, 0.2)
+        glColor4f(1.0, 1.0, 1.0, 0.2 * self.opacity)
         glVertex2f(0, 0)
         glEnd()
         
         glPointSize(10)
         glBegin(GL_POINTS)
-        glColor4f(0.8, 0.2, 0.4, 1.0)
+        glColor4f(0.8, 0.2, 0.4, 1.0 * self.opacity)
         glVertex2f(0,0)
         glEnd()
         

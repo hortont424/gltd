@@ -6,10 +6,12 @@ from TowerActor import *
 from Animation import *
 from Actor import *
 from GridActor import gridWidth, gridHeight
+from EnemyActor import *
 
 class RedL1BulletActor(Actor):
-    def __init__(self, x, y, angle, velocity):
+    def __init__(self, x, y, angle, velocity, damage):
         super(RedL1BulletActor, self).__init__(x, y, 5, 5)
+        self.damage = damage
         nextX = x + cos(radians(angle)) * 800 # TODO: HACKY
         nextY = y + sin(radians(angle)) * 800
         anim = Animation(velocity, [("x", x, nextX), ("y", y, nextY)], LINEAR)
@@ -28,7 +30,12 @@ class RedL1BulletActor(Actor):
         if (self.x < self.board.x or self.x > self.board.width or
             self.y < self.board.y or self.y > self.board.height):
             self.window.removeActor(self)
-        print "collisioncheck"
+        collisions = [self.window.pickingNames[c[0]] for c in self.window.pick(self.x, self.y) if isinstance(self.window.pickingNames[c[0]], EnemyActor)]
+        
+        if len(collisions):
+            enemy = collisions[0]
+            enemy.damage(self.damage)
+            self.parent.removeActor(self)
 
 class RedL1TowerActor(TowerActor):
     def __init__(self, gridX, gridY):
@@ -49,11 +56,10 @@ class RedL1TowerActor(TowerActor):
         currentTime = glutGet(GLUT_ELAPSED_TIME)
         
         if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
-            self.fireTime = currentTime
-            print "fire!"
-            
-            bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 1500)
-            self.window.addActor(bullet)
+            if self.targetEnemy and self.targetEnemy.health > 0:
+                self.fireTime = currentTime
+                bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 1500, self.damage)
+                self.window.addActor(bullet)
     
     def render(self):
         super(RedL1TowerActor, self).render()

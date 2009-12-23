@@ -8,6 +8,8 @@ import time
 
 class Window(GroupActor):
     subactors = []
+    pickingNames = {}
+    currentPickingName = 0
     
     def __init__(self):
         super(Window, self).__init__(0, 0, 800, 600)
@@ -47,9 +49,14 @@ class Window(GroupActor):
     
     def registerActor(self, actor):
         self.subactors.append(actor)
+        self.currentPickingName += 1
+        self.pickingNames[actor] = self.currentPickingName
+        self.pickingNames[self.currentPickingName] = actor
     
     def unregisterActor(self, actor):
         self.subactors.remove(actor)
+        del self.pickingNames[self.pickingNames[actor]]
+        del self.pickingNames[actor]
     
     def reshape(self, width, height):
         self.width = width
@@ -66,10 +73,34 @@ class Window(GroupActor):
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glLoadIdentity()
+        glInitNames()
         
         self.draw()
         
         glutSwapBuffers()
+    
+    def pick(self, x, y):
+        # maye need to set bufefer
+        glSelectBuffer(64)
+        glRenderMode(GL_SELECT)
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glMatrixMode(GL_PROJECTION)
+        glPushMatrix()
+        glLoadIdentity()
+        gluPickMatrix(x, y, 5, 5, glGetIntegerv(GL_VIEWPORT))
+        glOrtho(0, self.width, 0, self.height, -800, 800)
+        glMatrixMode(GL_MODELVIEW)
+        glInitNames()
+        
+        self.draw()
+        
+        glMatrixMode(GL_PROJECTION)
+        glPopMatrix()
+        glMatrixMode(GL_MODELVIEW)
+        glFlush()
+        
+        return [c.names for c in glRenderMode(GL_RENDER)]
     
     def animate(self):
         timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime

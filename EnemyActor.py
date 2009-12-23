@@ -14,6 +14,7 @@ class EnemyActor(Actor):
         
         self.position = 0
         self.hitPoints = 1000
+        self.health = self.hitPoints
         self.speed = 1000
     
     def render(self):
@@ -50,3 +51,13 @@ class EnemyActor(Actor):
     def nextSquare(self):
         self.position += 1
         self.start()
+    
+    def damage(self, d):
+        self.health -= d
+        self.opacity = float(self.health) / float(self.hitPoints)
+        
+        if self.health <= 0:
+            # EXPLODDDEEEEEE
+            self.parent.removeActor(self)
+        
+        self.invalidate()
