@@ -9,6 +9,7 @@ from Animation import *
 from Actor import *
 from GridActor import gridWidth, gridHeight
 from EnemyActor import *
+from ParticleActor import *
 
 class RedL1BulletActor(Actor):
     def __init__(self, x, y, angle, velocity, damage):
@@ -22,7 +23,7 @@ class RedL1BulletActor(Actor):
         anim.start()
     
     def draw(self):
-        glPointSize(6)
+        glPointSize(5)
         glBegin(GL_POINTS)
         glColor4f(0.8, 0.2, 0.4, 1.0)
         glVertex2f(0.0, 0.0)
@@ -38,6 +39,7 @@ class RedL1BulletActor(Actor):
             self.explode(collisions[0])
     
     def explode(self, enemy):
+        self.window.addActor(ParticleActor(self.x, self.y))
         enemy.damage(self.damage)
         self.parent.removeActor(self)
 
@@ -62,7 +64,7 @@ class RedL1TowerActor(TowerActor):
         if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
             if self.targetEnemy and self.targetEnemy.health > 0:
                 self.fireTime = currentTime
-                angle = self.weaponAngle + 90 + (random()*self.shake)
+                angle = self.weaponAngle + 90 + (choice([-1,1])*random()*self.shake)
                 bullet = RedL1BulletActor(self.x, self.y, angle, 3500, self.damage)
                 self.window.addActor(bullet)
     

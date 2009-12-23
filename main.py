@@ -10,6 +10,7 @@ from BoardActor import *
 from RedEasyEnemyActor import *
 from RedL1TowerActor import *
 from Animation import *
+from ParticleActor import *
 
 # tower.targetEnemy = enemy
 

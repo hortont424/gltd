@@ -44,6 +44,9 @@ class TowerActor(Actor):
         glCallList(self.displayList)
         glCallList(self.rangeDisplayList)
 
+    def removeFromParent(self):
+        self.parent.removeTower(self)
+
     def getPosition(self):
         self.width = (self.board.width / gridWidth)
         self.height = (self.board.height / gridHeight)
