@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import cProfile
+import OpenGL
+
+OpenGL.ERROR_CHECKING = False
 
 from OpenGL.GL import *
 from OpenGL.GLUT import *
