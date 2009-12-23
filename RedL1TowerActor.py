@@ -33,9 +33,11 @@ class RedL1BulletActor(Actor):
         collisions = [self.window.pickingNames[c[0]] for c in self.window.pick(self.x, self.y) if isinstance(self.window.pickingNames[c[0]], EnemyActor)]
         
         if len(collisions):
-            enemy = collisions[0]
-            enemy.damage(self.damage)
-            self.parent.removeActor(self)
+            self.explode(collisions[0])
+    
+    def explode(self, enemy):
+        enemy.damage(self.damage)
+        self.parent.removeActor(self)
 
 class RedL1TowerActor(TowerActor):
     def __init__(self, gridX, gridY):

@@ -52,14 +52,34 @@ class TowerActor(Actor):
     def start(self):
         (self.x, self.y) = self.getPosition()
         self.retarget()
-    
-    def retarget(self):
+        
         anim = Animation(50, [], LINEAR)
         anim.onCompletion(self.retarget)
+        anim.loop = True
         self.addAnimation(anim)
         anim.start()
+    
+    def retarget(self):
+        # Enemy is dead!
+        if self.targetEnemy and self.targetEnemy.health <= 0:
+            self.targetEnemy = None
         
-        if self.distanceToEnemy() > self.range:
+        # Enemy is out of range!
+        if self.targetEnemy and self.distanceToEnemy() > self.range:
+            self.targetEnemy = None
+        
+        if not self.targetEnemy:
+            targetEnemies = [(t.position, t) for t in self.window.enemies if self.distanceToGivenEnemy(t) < self.range]
+            targetEnemies.sort()
+            
+            if len(targetEnemies):
+                # Pick the enemy farthest along
+                (position, enemy) = targetEnemies[-1]
+                self.targetEnemy = enemy
+            else:
+                return
+        
+        if (not self.targetEnemy) or self.distanceToEnemy() > self.range:
             return
         
         self.weaponAngle = 90 + degrees(atan2(self.y - self.targetEnemy.y, self.x - self.targetEnemy.x))
@@ -70,6 +90,9 @@ class TowerActor(Actor):
     def fire(self):
         abstract()
     
-    def distanceToEnemy(self):
+    def distanceToGivenEnemy(self, enemy):
         # TODO: awkward to use width
-        return sqrt((self.x - self.targetEnemy.x)**2 + (self.y - self.targetEnemy.y)**2) - (self.targetEnemy.width / 2)
+        return sqrt((self.x - enemy.x)**2 + (self.y - enemy.y)**2) - (enemy.width / 2)
+    
+    def distanceToEnemy(self):
+        return self.distanceToGivenEnemy(self.targetEnemy)

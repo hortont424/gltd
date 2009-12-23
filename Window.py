@@ -8,6 +8,8 @@ import time
 
 class Window(GroupActor):
     subactors = []
+    towers = []
+    enemies = []
     pickingNames = {}
     currentPickingName = 0
     
@@ -25,7 +27,7 @@ class Window(GroupActor):
 
         glutDisplayFunc(self.display)
         glutReshapeFunc(self.reshape)
-        glutIdleFunc(self.animate)
+        glutIdleFunc(self.idle)
         
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
@@ -46,6 +48,22 @@ class Window(GroupActor):
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
         
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
+    
+    def addTower(self, t):
+        self.addActor(t)
+        self.towers.append(t)
+    
+    def removeTower(self, t):
+        self.removeActor(t)
+        self.towers.remove(t)
+    
+    def addEnemy(self, t):
+        self.addActor(t)
+        self.enemies.append(t)
+    
+    def removeEnemy(self, t):
+        self.removeActor(t)
+        self.enemies.remove(t)
     
     def registerActor(self, actor):
         self.subactors.append(actor)
@@ -102,8 +120,10 @@ class Window(GroupActor):
         
         return [c.names for c in glRenderMode(GL_RENDER)]
     
-    def animate(self):
+    def idle(self):
         timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime
+        self.animate(timeStep)
+        
         for actor in self.subactors:
             actor.animate(timeStep)
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
