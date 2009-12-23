@@ -58,6 +58,6 @@ class EnemyActor(Actor):
         
         if self.health <= 0:
             # EXPLODDDEEEEEE
-            self.parent.removeActor(self)
+            self.parent.removeEnemy(self)
         
         self.invalidate()

@@ -60,7 +60,7 @@ class RedL1TowerActor(TowerActor):
         if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
             if self.targetEnemy and self.targetEnemy.health > 0:
                 self.fireTime = currentTime
-                bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 1500, self.damage)
+                bullet = RedL1BulletActor(self.x, self.y, self.weaponAngle + 90, 2000, self.damage)
                 self.window.addActor(bullet)
     
     def render(self):

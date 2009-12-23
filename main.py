@@ -34,6 +34,7 @@ class GLTD(object):
         
         tower = RedL1TowerActor(10,5)
         tower.range = 150
+        tower.damage = 1000
         self.window.addTower(tower)
         tower.start()
 

@@ -15,7 +15,7 @@ class TowerActor(Actor):
         self.gridX = gridX
         self.gridY = gridY
         self.damage = 250
-        self.reloadSpeed = 1000
+        self.reloadSpeed = 700
         self.range = 50
         self.targetEnemy = None
         
