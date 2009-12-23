@@ -48,7 +48,7 @@ class ParticleActor(Actor):
         self.lifetime = lifetime
         self.size = size
         self.color = [1.0, 0.0, 0.0] ## We'll have to fix this later...
-        self.particles = numpy.array([randomParticle(x, y, self.color) for i in range(0, 20)])
+        self.particles = numpy.array([randomParticle(x, y, self.color) for i in range(0, 25)])
         
         masterParticleClock.registerParticles(self)
     
@@ -57,8 +57,8 @@ class ParticleActor(Actor):
         # Otherwise, get rid of this actor!
         if self.particles[0][7] > 0.0:
             for p in self.particles:
-                p[0] = p[0] + p[2] # increment x by dx
-                p[1] = p[1] + p[3] # increment y by dy
+                p[0] += p[2] # increment x by dx
+                p[1] += p[3] # increment y by dy
                 p[2] *= 0.95
                 p[3] *= 0.95
                 p[7] -= uniform(0.01, 0.05)
@@ -73,10 +73,11 @@ class ParticleActor(Actor):
         glPushMatrix()
         
         glPointSize(self.size)
-        glColor4fv(self.color + [1.0])
         
-        glVertexPointerf(numpy.hsplit(self.particles,(2,))[0])
-        glColorPointerf(numpy.hsplit(self.particles,(-4,))[-1])
+        arrays = numpy.hsplit(self.particles,(2,4))
+        
+        glVertexPointerf(arrays[0])
+        glColorPointerf(arrays[-1])
         glEnableClientState(GL_COLOR_ARRAY)
         glEnableClientState(GL_VERTEX_ARRAY)
         glDrawArrays(GL_POINTS, 0, len(self.particles))
