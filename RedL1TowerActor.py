@@ -83,7 +83,6 @@ class RedL1TowerActor(TowerActor):
         glEnd()
         
         # Draw rotated segment for launcher
-        glPushMatrix()
         glRotatef(self.weaponAngle, 0.0, 0.0, 1.0)
         
         # Draw inner rectangle
@@ -95,8 +94,6 @@ class RedL1TowerActor(TowerActor):
         glColor4f(0.8, 0.2, 0.4, 1.0)
         drawRect(- size / 6, - size / 2, size / 3, size, 2)
         glEnd()
-        
-        glPopMatrix()
         
         glPopMatrix()
         

@@ -6,6 +6,9 @@ from Actor import *
 
 class GroupActor(Actor):
     actors = []
+    timeTotals = {}
+    timeCounts = {}
+    
     
     def __init__(self, x, y, w, h):
         super(GroupActor, self).__init__(x, y, w, h)
@@ -16,6 +19,7 @@ class GroupActor(Actor):
         glTranslatef(self.x, self.y, 0.0)
         
         for actor in self.actors:
+            start = glutGet(GLUT_ELAPSED_TIME)
             glPushName(self.window.pickingNames[actor])
             glPushMatrix()
             glTranslatef(actor.x, actor.y, 0.0)
@@ -24,6 +28,18 @@ class GroupActor(Actor):
             actor.draw()
             glPopMatrix()
             glPopName()
+            if actor.__class__.__name__ in self.timeTotals:
+                self.timeTotals[actor.__class__.__name__] += glutGet(GLUT_ELAPSED_TIME) - start
+                self.timeCounts[actor.__class__.__name__] += 1
+            else:
+                self.timeTotals[actor.__class__.__name__] = glutGet(GLUT_ELAPSED_TIME) - start
+                self.timeCounts[actor.__class__.__name__] = 1
+            
+        
+        for k in sorted(self.timeTotals.keys()):
+            print k, float(self.timeTotals[k]) / self.timeCounts[k]
+        
+        print
         
         glPopMatrix()
     
