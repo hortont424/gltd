@@ -27,7 +27,7 @@ class Window(GroupActor):
 
         glutDisplayFunc(self.display)
         glutReshapeFunc(self.reshape)
-        glutIdleFunc(self.idle)
+        glutTimerFunc(16, self.idle, 0)
         
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
@@ -106,7 +106,7 @@ class Window(GroupActor):
         glMatrixMode(GL_PROJECTION)
         glPushMatrix()
         glLoadIdentity()
-        gluPickMatrix(x, y, 5, 5, glGetIntegerv(GL_VIEWPORT))
+        gluPickMatrix(x, y, 2, 2, glGetIntegerv(GL_VIEWPORT))
         glOrtho(0, self.width, 0, self.height, -800, 800)
         glMatrixMode(GL_MODELVIEW)
         glInitNames()
@@ -120,12 +120,15 @@ class Window(GroupActor):
         
         return [c.names for c in glRenderMode(GL_RENDER)]
     
-    def idle(self):
+    def idle(self, timer):
         timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime
         self.animate(timeStep)
         
         for actor in self.subactors:
             actor.animate(timeStep)
+        
+        #print glutGet(GLUT_ELAPSED_TIME) - (timeStep + self.lastTime)
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
         
         glutPostRedisplay()
+        glutTimerFunc(16, self.idle, 0)

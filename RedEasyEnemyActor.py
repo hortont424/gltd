@@ -8,8 +8,10 @@ from Actor import *
 from GridActor import gridWidth, gridHeight
 
 class RedEasyEnemyActor(EnemyActor):
-    def __init__(self):
-        super(RedEasyEnemyActor, self).__init__()
+    def __init__(self, hp):
+        super(RedEasyEnemyActor, self).__init__(hp)
+        
+        self.baseColor = [1.0, 0.0, 0.0]
         
         anim = Animation(5000, [("rotation", 0, 360)], LINEAR)
         anim.loop = True

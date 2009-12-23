@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import cProfile
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
@@ -12,9 +14,8 @@ from RedL1TowerActor import *
 from Animation import *
 from ParticleActor import *
 
-# tower.targetEnemy = enemy
-
 class GLTD(object):
+    totalEnemies = 1
     def __init__(self):
         super(GLTD, self).__init__()
         
@@ -22,6 +23,8 @@ class GLTD(object):
         self.window.addActor(GridActor(0, 0, 600, 600))
         self.window.board = BoardActor(0, 0, 600, 600)
         self.window.addActor(self.window.board)
+        
+        self.window.addActor(masterParticleClock) # TODO: unmessify. IMPORTANT
 
         anim = Animation(1864, [], LINEAR)
         anim.onCompletion(self.createNewEnemy)
@@ -43,8 +46,13 @@ class GLTD(object):
         glutMainLoop()
     
     def createNewEnemy(self):
-        enemy = RedEasyEnemyActor()
+        enemy = RedEasyEnemyActor(self.totalEnemies * 100)
         self.window.addEnemy(enemy)
         enemy.start()
+        self.totalEnemies += 1
 
-td = GLTD()
+def main():
+    td = GLTD()
+
+main()
+#cProfile.run('main()', 'tl.prof')

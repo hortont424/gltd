@@ -55,15 +55,11 @@ class TowerActor(Actor):
     
     def start(self):
         (self.x, self.y) = self.getPosition()
-        self.retarget()
-        
-        anim = Animation(50, [], LINEAR)
-        anim.onCompletion(self.retarget)
-        anim.loop = True
-        self.addAnimation(anim)
-        anim.start()
+        self.retarget(0)
     
-    def retarget(self):
+    def retarget(self, timer):
+        glutTimerFunc(50, self.retarget, 0)
+        
         # Enemy is dead!
         if self.targetEnemy and self.targetEnemy.health <= 0:
             self.targetEnemy = None

@@ -46,17 +46,6 @@ class RedL1BulletActor(Actor):
 class RedL1TowerActor(TowerActor):
     def __init__(self, gridX, gridY):
         super(RedL1TowerActor, self).__init__(gridX, gridY)
-        
-        #anim = Animation(5000, [("rotation", 0, 360)], LINEAR)
-        #anim.loop = True
-        #self.addAnimation(anim)
-        #anim.start()
-        
-        #anim = Animation(250, [("scale", .8, 1.2)], IN_OUT_QUAD)
-        #anim.loop = True
-        #anim.pingPong = True
-        #self.addAnimation(anim)
-        #anim.start()
     
     def fire(self):
         currentTime = glutGet(GLUT_ELAPSED_TIME)

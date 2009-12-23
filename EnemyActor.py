@@ -5,17 +5,19 @@ from OpenGL.GLU import *
 from Animation import *
 from Actor import *
 from GridActor import gridWidth, gridHeight
+from ParticleActor import *
 
 from Utilities import *
 
 class EnemyActor(Actor):
-    def __init__(self):
+    def __init__(self, hp):
         super(EnemyActor, self).__init__(0, 0, 0, 0)
         
         self.position = 0
-        self.hitPoints = 1000
+        self.hitPoints = hp
         self.health = self.hitPoints
         self.speed = 1000
+        self.baseColor = [1.0, 1.0, 1.0]
     
     def render(self):
         abstract()
@@ -54,10 +56,12 @@ class EnemyActor(Actor):
     
     def damage(self, d):
         self.health -= d
-        self.opacity = float(self.health) / float(self.hitPoints)
+        self.opacity = min(float(self.health) / float(self.hitPoints) + 0.2, 1.0)
         
         if self.health <= 0:
-            # EXPLODDDEEEEEE
+            particles = ParticleActor(self.x, self.y, 50, 6.0)
+            particles.color = self.baseColor
+            self.window.addActor(particles)
             self.parent.removeEnemy(self)
         
         self.invalidate()
