@@ -24,6 +24,9 @@ class TowerActor(Actor):
         self.fireTime = 0
     
     def renderRange(self):
+        if hasattr(self, "renderedRange"):
+            glDeleteLists(self.rangeDisplayList, 1)
+        
         self.renderedRange = self.range
         self.rangeDisplayList = glGenLists(1)
         glNewList(self.rangeDisplayList, GL_COMPILE)
@@ -40,6 +43,8 @@ class TowerActor(Actor):
         glEndList()
     
     def render(self):
+        # If we haven't created the display list for the range circle, or
+        # the range has changed since the last time, render it!
         if hasattr(self, "renderedRange"):
             if self.renderedRange != self.range:
                 self.renderRange()
@@ -81,7 +86,7 @@ class TowerActor(Actor):
             targetEnemies.sort()
             
             if len(targetEnemies):
-                # Pick the enemy farthest along
+                # Pick the enemy farthest along (this will need to be switchable)
                 (position, enemy) = targetEnemies[-1]
                 self.targetEnemy = enemy
             else:

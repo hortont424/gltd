@@ -23,7 +23,7 @@ class MasterParticleClockActor(Actor):
     def unregisterParticles(self, p):
         self.subparticles.remove(p)
     
-    def updateParticles(self, timer):
+    def updateParticles(self, timer=0):
         for a in self.subparticles:
             a.updateParticles()
         
@@ -31,7 +31,7 @@ class MasterParticleClockActor(Actor):
     
     def draw(self):
         if not self.timerStarted:
-            self.updateParticles(0)
+            self.updateParticles()
             self.timerStarted = True
 
 masterParticleClock = MasterParticleClockActor()
