@@ -23,27 +23,34 @@ class TowerActor(Actor):
         self.weaponAngle = 0.0
         self.fireTime = 0
     
+    def renderRange(self):
+        self.renderedRange = self.range
+        self.rangeDisplayList = glGenLists(1)
+        glNewList(self.rangeDisplayList, GL_COMPILE)
+        glPushMatrix()
+        
+        glLineWidth(2)
+        glColor4f(1.0, 1.0, 1.0, 0.1)
+        
+        glBegin(GL_LINE_STRIP)
+        drawCircle(0.0, 0.0, self.range)
+        glEnd()
+        
+        glPopMatrix()
+        glEndList()
+    
     def render(self):
-        pass
-        #self.rangeDisplayList = glGenLists(1)
-        #glNewList(self.rangeDisplayList, GL_COMPILE)
-        #glPushMatrix()
-        
-        #glLineWidth(2)
-        #glColor4f(1.0, 1.0, 1.0, 0.1)
-        
-        #glBegin(GL_LINE_STRIP)
-        #drawCircle(0.0, 0.0, self.range)
-        #glEnd()
-        
-        #glPopMatrix()
-        #glEndList()
+        if hasattr(self, "renderedRange"):
+            if self.renderedRange != self.range:
+                self.renderRange()
+        else:
+            self.renderRange()
     
     def draw(self):
         (self.x, self.y) = self.getPosition()
         self.validate()
         glCallList(self.displayList)
-        #glCallList(self.rangeDisplayList)
+        glCallList(self.rangeDisplayList)
 
     def removeFromParent(self):
         self.parent.removeTower(self)
