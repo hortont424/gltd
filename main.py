@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import Settings
 import OpenGL
 
-OpenGL.ERROR_CHECKING = False
+OpenGL.ERROR_CHECKING = Settings.DEBUGGING
 
 from OpenGL.GL import *
 from OpenGL.GLUT import *

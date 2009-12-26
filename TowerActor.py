@@ -95,8 +95,11 @@ class TowerActor(Actor):
         if (not self.targetEnemy) or self.distanceToEnemy() > self.range:
             return
         
-        self.weaponAngle = 90 + degrees(atan2(self.y - self.targetEnemy.y, self.x - self.targetEnemy.x))
-        self.invalidate()
+        angle = 90 + degrees(atan2(self.y - self.targetEnemy.y, self.x - self.targetEnemy.x))
+        
+        if abs(angle - self.weaponAngle) > 2.0: 
+            self.weaponAngle = angle
+            self.invalidate()
         
         self.fire()
     

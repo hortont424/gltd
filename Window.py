@@ -127,8 +127,7 @@ class Window(GroupActor):
         for actor in self.subactors:
             actor.animate(timeStep)
         
-        #print glutGet(GLUT_ELAPSED_TIME) - (timeStep + self.lastTime)
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
         
         glutPostRedisplay()
-        glutTimerFunc(16, self.idle, 0)
+        glutTimerFunc(15, self.idle, 0)

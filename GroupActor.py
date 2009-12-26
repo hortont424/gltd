@@ -4,11 +4,12 @@ from OpenGL.GLU import *
 
 from Actor import *
 
+import Settings
+
 class GroupActor(Actor):
     actors = []
     timeTotals = {}
     timeCounts = {}
-    
     
     def __init__(self, x, y, w, h):
         super(GroupActor, self).__init__(x, y, w, h)
@@ -28,18 +29,20 @@ class GroupActor(Actor):
             actor.draw()
             glPopMatrix()
             glPopName()
-            if actor.__class__.__name__ in self.timeTotals:
-                self.timeTotals[actor.__class__.__name__] += glutGet(GLUT_ELAPSED_TIME) - start
-                self.timeCounts[actor.__class__.__name__] += 1
-            else:
-                self.timeTotals[actor.__class__.__name__] = glutGet(GLUT_ELAPSED_TIME) - start
-                self.timeCounts[actor.__class__.__name__] = 1
             
+            if Settings.DEBUGGING:
+                if actor.__class__.__name__ in self.timeTotals:
+                    self.timeTotals[actor.__class__.__name__] += glutGet(GLUT_ELAPSED_TIME) - start
+                    self.timeCounts[actor.__class__.__name__] += 1
+                else:
+                    self.timeTotals[actor.__class__.__name__] = glutGet(GLUT_ELAPSED_TIME) - start
+                    self.timeCounts[actor.__class__.__name__] = 1
+
+        if Settings.DEBUGGING:
+            for k in sorted(self.timeTotals.keys()):
+                print k, self.timeTotals[k], float(self.timeTotals[k]) / self.timeCounts[k]
         
-        for k in sorted(self.timeTotals.keys()):
-            print k, float(self.timeTotals[k]) / self.timeCounts[k]
-        
-        print
+            print
         
         glPopMatrix()
     
