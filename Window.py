@@ -122,12 +122,14 @@ class Window(GroupActor):
     
     def idle(self, timer):
         timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime
+        renderTime = glutGet(GLUT_ELAPSED_TIME)
         self.animate(timeStep)
         
         for actor in self.subactors:
             actor.animate(timeStep)
         
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
+        renderTime = self.lastTime - renderTime
         
         glutPostRedisplay()
-        glutTimerFunc(15, self.idle, 0)
+        glutTimerFunc(max(16 - renderTime, 1), self.idle, 0)
