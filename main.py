@@ -28,13 +28,22 @@ class GLTD(object):
         self.window.addActor(self.window.board)
         
         self.window.addActor(masterParticleClock) # TODO: unmessify. IMPORTANT
+        
+        #anim = Animation(20, [], LINEAR)
+        #self.px = 10.0
+        #self.py = 10
+        #anim.onCompletion(self.createNewParticles)
+        #anim.loop = True
+        #self.window.addAnimation(anim)
+        #anim.start()
+        
 
         anim = Animation(1864, [], LINEAR)
         anim.onCompletion(self.createNewEnemy)
         anim.loop = True
         self.window.addAnimation(anim)
         anim.start()
-
+        
         tower = RedL1TowerActor(4,7)
         self.window.addTower(tower)
         tower.start()
@@ -54,6 +63,14 @@ class GLTD(object):
         self.window.addEnemy(enemy)
         enemy.start()
         self.totalEnemies += 1
+    
+    def createNewParticles(self):
+        if self.py > 600:
+            return
+        
+        self.window.addActor(ParticleActor(20*sin(self.px) + 30,self.py))
+        self.px += 0.5
+        self.py += 5
 
 def main():
     td = GLTD()
