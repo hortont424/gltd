@@ -5,8 +5,10 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 import numpy
+import Image
 
 from Actor import *
+from Utilities import *
 
 gridWidth = 15
 gridHeight = 15
@@ -40,21 +42,7 @@ class GridActor(Actor):
     def render(self):
         (dark, light) = (self.theme.darkBackground, self.theme.lightBackground)
         
-        vertex = compileShader(
-        """
-        varying vec4 vertex_color;
-        void main() {
-            gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-            vertex_color = gl_Color;
-        }""", GL_VERTEX_SHADER)
-        
-        fragment = compileShader("""
-        varying vec4 vertex_color;
-        void main() {
-            gl_FragColor = vertex_color;
-        }""",GL_FRAGMENT_SHADER)
-        
-        self.shader = compileProgram(vertex,fragment)
+        self.texture = createTexture(self.width, self.height)
         
         data = [[0.0, 0.0] + dark,
                 [self.width, 0.0] + dark,
@@ -72,11 +60,9 @@ class GridActor(Actor):
             data.append([self.width, y] + self.theme.gridLines)
         
         self.vbo = vbo.VBO(numpy.array(data, 'f'))
-    
-    def draw(self):
-        self.validate()
         
-        glUseProgram(self.shader)
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+        
         glLineWidth(0.1)
         
         self.vbo.bind()
@@ -89,4 +75,30 @@ class GridActor(Actor):
         glDisableClientState(GL_VERTEX_ARRAY)
         glEnableClientState(GL_COLOR_ARRAY)
         self.vbo.unbind()
-        glUseProgram(0)
+        
+        glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, self.width, self.height, 0)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        
+        glBindTexture(GL_TEXTURE_2D, 0)
+    
+    def draw(self):
+        self.validate()
+        
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+        
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+        
+        glBegin(GL_QUADS)
+        glColor4f(1.0, 1.0, 1.0, 1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex2f(0.0, 0.0)
+        glTexCoord2f(0.0, 1.0)
+        glVertex2f(0.0, self.height)
+        glTexCoord2f(1.0, 1.0)
+        glVertex2f(self.width, self.height)
+        glTexCoord2f(1.0, 0.0)
+        glVertex2f(self.width, 0.0)
+        glEnd()
+        glBindTexture(GL_TEXTURE_2D, 0)

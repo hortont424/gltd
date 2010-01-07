@@ -45,6 +45,7 @@ class Window(GroupActor):
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         glEnable(GL_TEXTURE_2D)
+        glDisable(GL_LIGHTING)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
         
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)

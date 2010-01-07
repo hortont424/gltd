@@ -1,6 +1,8 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
+from OpenGL.images import *
+from OpenGL.GL.images import *
 
 from math import *
 
@@ -45,3 +47,14 @@ def drawRect(x, y, w, h, t):
     drawLine(x, y + h, x + w, y + h, t)
     drawLine(x + w, y, x + w, y + h, t)
     drawLine(x, y, x + w, y, t)
+
+def createTexture(width, height):
+    texture = glGenTextures(1)
+    
+    data = createTargetArray(GL_RGB, (width, height), GL_UNSIGNED_BYTE)
+    glBindTexture(GL_TEXTURE_2D, texture)
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+    glBindTexture(GL_TEXTURE_2D, 0)
+    
+    return texture
