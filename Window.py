@@ -98,7 +98,6 @@ class Window(GroupActor):
         glutSwapBuffers()
     
     def pick(self, x, y):
-        # maye need to set bufefer
         glSelectBuffer(64)
         glRenderMode(GL_SELECT)
         
@@ -132,4 +131,4 @@ class Window(GroupActor):
         renderTime = self.lastTime - renderTime
         
         glutPostRedisplay()
-        glutTimerFunc(max(16 - renderTime, 1), self.idle, 0)
+        glutTimerFunc(5, self.idle, 0) # TODO: this should be less retarded

@@ -15,6 +15,8 @@ class GroupActor(Actor):
         super(GroupActor, self).__init__(x, y, w, h)
     
     def draw(self):
+        startDrawing = glutGet(GLUT_ELAPSED_TIME)
+        
         glPushMatrix()
         
         glTranslatef(self.x, self.y, 0.0)
@@ -43,6 +45,9 @@ class GroupActor(Actor):
                 print k, self.timeTotals[k], float(self.timeTotals[k]) / self.timeCounts[k]
         
             print
+        
+        if Settings.DEBUGGING:
+            print "Total", glutGet(GLUT_ELAPSED_TIME) - startDrawing
         
         glPopMatrix()
     

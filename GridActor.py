@@ -1,6 +1,10 @@
 from OpenGL.GL import *
+from OpenGL.GL.shaders import *
+from OpenGL.arrays import vbo
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
+
+import numpy
 
 from Actor import *
 
@@ -34,42 +38,55 @@ class GridActor(Actor):
         self.theme = GridActorThemes().blue
     
     def render(self):
-        self.displayList = glGenLists(1)
-        glNewList(self.displayList, GL_COMPILE)
+        (dark, light) = (self.theme.darkBackground, self.theme.lightBackground)
         
-        glPushMatrix()
+        vertex = compileShader(
+        """
+        varying vec4 vertex_color;
+        void main() {
+            gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+            vertex_color = gl_Color;
+        }""", GL_VERTEX_SHADER)
         
-        glBegin(GL_QUADS)
-        glColor4fv(self.theme.darkBackground)
-        glVertex2f(0.0, 0.0)
-        glVertex2f(self.width, 0.0)
-        glColor4fv(self.theme.lightBackground)
-        glVertex2f(self.width, self.height)
-        glVertex2f(0, self.height)
-        glEnd()
+        fragment = compileShader("""
+        varying vec4 vertex_color;
+        void main() {
+            gl_FragColor = vertex_color;
+        }""",GL_FRAGMENT_SHADER)
         
-        glLineWidth(0.1)
-        glColor4fv(self.theme.gridLines)
-
-        glBegin(GL_LINES)
+        self.shader = compileProgram(vertex,fragment)
+        
+        data = [[0.0, 0.0] + dark,
+                [self.width, 0.0] + dark,
+                [self.width, self.height] + light,
+                [0, self.height] + light]
         
         for i in range(0, gridWidth):
             x = (self.width / gridWidth) * i
-            glVertex2f(x, 0)
-            glVertex2f(x, self.height)
-
+            data.append([x, 0] + self.theme.gridLines)
+            data.append([x, self.height] + self.theme.gridLines)
+        
         for i in range(0, gridHeight):
             y = (self.height / gridHeight) * i
-            glVertex2f(0, y)
-            glVertex2f(self.width, y)
+            data.append([0, y] + self.theme.gridLines)
+            data.append([self.width, y] + self.theme.gridLines)
         
-        glEnd()
-        
-        glPopMatrix()
-        
-        glEndList()
+        self.vbo = vbo.VBO(numpy.array(data, 'f'))
     
     def draw(self):
         self.validate()
-        glCallList(self.displayList)
         
+        glUseProgram(self.shader)
+        glLineWidth(0.1)
+        
+        self.vbo.bind()
+        glEnableClientState(GL_VERTEX_ARRAY)
+        glEnableClientState(GL_COLOR_ARRAY)
+        glVertexPointer(2, GL_FLOAT, 24, self.vbo)
+        glColorPointer(4, GL_FLOAT, 24, self.vbo + 8)
+        glDrawArrays(GL_QUADS, 0, 4)
+        glDrawArrays(GL_LINES, 4, (gridWidth + gridHeight) * 2)
+        glDisableClientState(GL_VERTEX_ARRAY)
+        glEnableClientState(GL_COLOR_ARRAY)
+        self.vbo.unbind()
+        glUseProgram(0)
