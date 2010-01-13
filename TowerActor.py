@@ -79,8 +79,8 @@ class TowerActor(Actor):
         return (self.width * self.gridX + (self.width / 2), self.height * self.gridY + (self.height / 2))
     
     def setPositionFromPixels(self, x, y):
-        self.gridX = int((2*x)-self.width)/(2*self.width)
-        self.gridY = int((2*y)-self.height)/(2*self.height)
+        self.gridX = int(x/self.width)
+        self.gridY = int(y/self.height)
     
     def start(self):
         (self.x, self.y) = self.getPosition()
