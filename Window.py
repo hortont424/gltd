@@ -7,14 +7,14 @@ from GroupActor import *
 import time
 
 class Window(GroupActor):
-    subactors = []
-    towers = []
-    enemies = []
-    pickingNames = {}
-    currentPickingName = 0
-    
     def __init__(self):
         super(Window, self).__init__(0, 0, 800, 600)
+        
+        self.subactors = []
+        self.towers = []
+        self.enemies = []
+        self.pickingNames = {}
+        self.currentPickingName = 0
         
         glutInit("")
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH | GLUT_MULTISAMPLE)

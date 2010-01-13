@@ -7,12 +7,11 @@ from Actor import *
 import Settings
 
 class GroupActor(Actor):
-    actors = []
-    timeTotals = {}
-    timeCounts = {}
-    
     def __init__(self, x, y, w, h):
         super(GroupActor, self).__init__(x, y, w, h)
+        self.actors = []
+        self.timeTotals = {}
+        self.timeCounts = {}
     
     def draw(self):
         startDrawing = glutGet(GLUT_ELAPSED_TIME)
@@ -53,7 +52,7 @@ class GroupActor(Actor):
     
     def invalidate(self):
         super(GroupActor, self).invalidate()
-        
+
         for actor in self.actors:
             actor.invalidate()
     
