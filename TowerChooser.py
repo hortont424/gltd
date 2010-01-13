@@ -40,7 +40,7 @@ class TowerChooser(GroupActor):
         glEndList()
 
     def draw(self):
-        super(TowerChooser, self).draw()
-        
         self.validate()
         glCallList(self.displayList)
+        
+        super(TowerChooser, self).draw()

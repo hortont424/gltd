@@ -56,6 +56,8 @@ class TowerActor(Actor):
     
     def draw(self):
         # If inactive, allow position to be overridden
+        self.updateSize()
+        
         if self.active:
             (self.x, self.y) = self.getPosition()
         
@@ -68,10 +70,11 @@ class TowerActor(Actor):
     def removeFromParent(self):
         self.parent.removeTower(self)
 
-    def getPosition(self):
+    def updateSize(self):
         self.width = (self.board.width / gridWidth)
         self.height = (self.board.height / gridHeight)
-        
+
+    def getPosition(self):
         return (self.width * self.gridX + (self.width / 2), self.height * self.gridY + (self.height / 2))
     
     def start(self):

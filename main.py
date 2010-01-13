@@ -62,7 +62,7 @@ class GLTD(object):
         
         tower = RedL1TowerActor(0, 0)
         tower.active = False
-        tower.x = tower.y = -0.0
+        tower.x = tower.y = 20.0
         towerChooser.addActor(tower)
 
         glutMainLoop()

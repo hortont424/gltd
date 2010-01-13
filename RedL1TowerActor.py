@@ -48,6 +48,9 @@ class RedL1TowerActor(TowerActor):
         super(RedL1TowerActor, self).__init__(gridX, gridY)
     
     def fire(self):
+        if not self.active:
+            return
+        
         currentTime = glutGet(GLUT_ELAPSED_TIME)
         
         if self.distanceToEnemy() < self.range and currentTime - self.fireTime > self.reloadSpeed:
