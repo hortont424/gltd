@@ -33,10 +33,10 @@ class RedL1BulletActor(Actor):
         if (self.x < self.board.x or self.x > self.board.width or
             self.y < self.board.y or self.y > self.board.height):
             self.window.removeActor(self)
-        collisions = [self.window.pickingNames[c[0]] for c in self.window.pick(self.x, self.y) if isinstance(self.window.pickingNames[c[0]], EnemyActor)]
+        collisions = [self.window.pickingNames[c] for c in self.window.pick(self.x, self.y) if isinstance(self.window.pickingNames[c], EnemyActor)]
         
         if len(collisions):
-            self.explode(collisions[0])
+            self.explode(collisions[-1]) # maybe
     
     def explode(self, enemy):
         self.window.addActor(ParticleActor(self.x, self.y))

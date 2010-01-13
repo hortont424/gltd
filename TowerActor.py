@@ -24,6 +24,7 @@ class TowerActor(Actor):
         self.fireTime = 0
         
         self.active = True
+        self.pickerTower = False
     
     def renderRange(self):
         if hasattr(self, "renderedRange"):
@@ -77,6 +78,10 @@ class TowerActor(Actor):
     def getPosition(self):
         return (self.width * self.gridX + (self.width / 2), self.height * self.gridY + (self.height / 2))
     
+    def setPositionFromPixels(self, x, y):
+        self.gridX = int((2*x)-self.width)/(2*self.width)
+        self.gridY = int((2*y)-self.height)/(2*self.height)
+    
     def start(self):
         (self.x, self.y) = self.getPosition()
         self.retarget(0)
@@ -123,3 +128,28 @@ class TowerActor(Actor):
     
     def distanceToEnemy(self):
         return self.distanceToGivenEnemy(self.targetEnemy)
+    
+    def mouseDown(self, button, x, y):
+        # TODO: bring up menu if this is an active tower
+        if self.active:
+            return
+        else:
+            tower = self.__class__(0, 0)
+            tower.active = False
+            tower.pickerTower = True
+            tower.x, tower.y = x, y
+            self.window.addTower(tower)
+            self.window.mouseActor = tower # TODO: THIS IS DISGUSTING
+
+    def mouseUp(self, button, x, y):
+        if self.pickerTower:
+            self.active = True
+            self.pickerTower = False
+            self.setPositionFromPixels(x, y)
+            self.window.addTower(self)
+            self.start()
+            self.invalidate()
+
+    def mouseDrag(self, x, y):
+        if self.pickerTower:
+            self.x, self.y = x, y

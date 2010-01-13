@@ -4,6 +4,8 @@ from OpenGL.GLU import *
 
 from GroupActor import *
 
+from Utilities import *
+
 import time
 
 class Window(GroupActor):
@@ -15,6 +17,7 @@ class Window(GroupActor):
         self.enemies = []
         self.pickingNames = {}
         self.currentPickingName = 0
+        self.mouseActor = None
         
         glutInit("")
         glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH | GLUT_MULTISAMPLE)
@@ -26,6 +29,8 @@ class Window(GroupActor):
         self.reshape(800, 600)
 
         glutDisplayFunc(self.display)
+        glutMouseFunc(self.mouse)
+        glutMotionFunc(self.activeMotion)
         glutReshapeFunc(self.reshape)
         glutTimerFunc(16, self.idle, 0)
         
@@ -51,19 +56,23 @@ class Window(GroupActor):
         self.lastTime = glutGet(GLUT_ELAPSED_TIME)
     
     def addTower(self, t):
-        self.addActor(t)
+        if t not in self.subactors:
+            self.addActor(t)
         self.towers.append(t)
     
     def removeTower(self, t):
-        self.removeActor(t)
+        if t in self.subactors:
+            self.removeActor(t)
         self.towers.remove(t)
     
     def addEnemy(self, t):
-        self.addActor(t)
+        if t not in self.subactors:
+            self.addActor(t)
         self.enemies.append(t)
     
     def removeEnemy(self, t):
-        self.removeActor(t)
+        if t in self.subactors:
+            self.removeActor(t)
         self.enemies.remove(t)
     
     def registerActor(self, actor):
@@ -118,7 +127,7 @@ class Window(GroupActor):
         glMatrixMode(GL_MODELVIEW)
         glFlush()
         
-        return [c.names for c in glRenderMode(GL_RENDER)]
+        return flatten([c.names for c in glRenderMode(GL_RENDER)])
     
     def idle(self, timer):
         timeStep = glutGet(GLUT_ELAPSED_TIME) - self.lastTime
@@ -133,3 +142,15 @@ class Window(GroupActor):
         
         glutPostRedisplay()
         glutTimerFunc(5, self.idle, 0) # TODO: this should be less retarded
+    
+    def mouse(self, button, state, x, y):
+        self.mouseActor = self.pickingNames[self.pick(x, self.height - y)[-1]]
+        if state == GLUT_DOWN:
+            self.mouseActor.mouseDown(button, x, self.height - y)
+        elif state == GLUT_UP:
+            self.mouseActor.mouseUp(button, x, self.height - y)
+            self.mouseActor = None
+    
+    def activeMotion(self, x, y):
+        if self.mouseActor:
+            self.mouseActor.mouseDrag(x, self.height - y)

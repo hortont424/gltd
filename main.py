@@ -40,7 +40,7 @@ class GLTD(object):
         #anim.start()
 
         anim = Animation(1864, [], LINEAR)
-        #################anim.onCompletion(self.createNewEnemy)
+        anim.onCompletion(self.createNewEnemy)
         anim.loop = True
         self.window.addAnimation(anim)
         anim.start()
@@ -62,7 +62,7 @@ class GLTD(object):
         
         tower = RedL1TowerActor(0, 0)
         tower.active = False
-        tower.x = tower.y = 20.0
+        tower.x = tower.y = 40.0
         towerChooser.addActor(tower)
 
         glutMainLoop()

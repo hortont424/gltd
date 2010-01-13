@@ -55,3 +55,12 @@ class Actor(object):
     
     def addAnimation(self, anim):
         self.animations.append(anim)
+    
+    def mouseDown(self, button, x, y):
+        pass
+    
+    def mouseUp(self, button, x, y):
+        pass
+    
+    def mouseDrag(self, x, y):
+        pass
