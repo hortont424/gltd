@@ -18,8 +18,6 @@ class GroupActor(Actor):
         
         glPushMatrix()
         
-        glTranslatef(self.x, self.y, 0.0)
-        
         for actor in self.actors:
             start = glutGet(GLUT_ELAPSED_TIME)
             glPushName(self.window.pickingNames[actor])

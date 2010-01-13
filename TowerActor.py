@@ -22,6 +22,8 @@ class TowerActor(Actor):
         
         self.weaponAngle = 0.0
         self.fireTime = 0
+        
+        self.active = True
     
     def renderRange(self):
         if hasattr(self, "renderedRange"):
@@ -45,17 +47,23 @@ class TowerActor(Actor):
     def render(self):
         # If we haven't created the display list for the range circle, or
         # the range has changed since the last time, render it!
-        if hasattr(self, "renderedRange"):
-            if self.renderedRange != self.range:
+        if self.active:
+            if hasattr(self, "renderedRange"):
+                if self.renderedRange != self.range:
+                    self.renderRange()
+            else:
                 self.renderRange()
-        else:
-            self.renderRange()
     
     def draw(self):
-        (self.x, self.y) = self.getPosition()
+        # If inactive, allow position to be overridden
+        if self.active:
+            (self.x, self.y) = self.getPosition()
+        
         self.validate()
         glCallList(self.displayList)
-        glCallList(self.rangeDisplayList)
+        
+        if self.active:
+            glCallList(self.rangeDisplayList)
 
     def removeFromParent(self):
         self.parent.removeTower(self)

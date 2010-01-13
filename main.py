@@ -16,11 +16,13 @@ from RedEasyEnemyActor import *
 from RedL1TowerActor import *
 from Animation import *
 from ParticleActor import *
+from TowerChooser import *
 
 class GLTD(object):
-    totalEnemies = 1
     def __init__(self):
         super(GLTD, self).__init__()
+        
+        self.totalEnemies = 1
         
         self.window = Window()
         self.window.addActor(GridActor(0, 0, 600, 600))
@@ -36,25 +38,32 @@ class GLTD(object):
         #anim.loop = True
         #self.window.addAnimation(anim)
         #anim.start()
-        
 
         anim = Animation(1864, [], LINEAR)
-        anim.onCompletion(self.createNewEnemy)
+        #################anim.onCompletion(self.createNewEnemy)
         anim.loop = True
         self.window.addAnimation(anim)
         anim.start()
         
-        tower = RedL1TowerActor(4,7)
-        self.window.addTower(tower)
-        tower.start()
+        #tower = RedL1TowerActor(4,7)
+        #self.window.addTower(tower)
+        #tower.start()
+        #
+        #tower = RedL1TowerActor(10,5)
+        #tower.range = 150
+        #tower.reloadSpeed = 300
+        #tower.damage = 1000
+        #tower.shake = 2
+        #self.window.addTower(tower)
+        #tower.start()
         
-        tower = RedL1TowerActor(10,5)
-        tower.range = 150
-        tower.reloadSpeed = 300
-        tower.damage = 1000
-        tower.shake = 2
-        self.window.addTower(tower)
-        tower.start()
+        towerChooser = TowerChooser(600, 300, 200, 300)
+        self.window.addActor(towerChooser)
+        
+        tower = RedL1TowerActor(0, 0)
+        tower.active = False
+        tower.x = tower.y = -0.0
+        towerChooser.addActor(tower)
 
         glutMainLoop()
     
